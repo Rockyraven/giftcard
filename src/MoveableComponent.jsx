@@ -92,9 +92,9 @@ const MovableInputBox = () => {
       >
         <div
           ref={inputRef}
-          className={`flex gap-2 absolute p-1 opacity-70 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? 'sm:-mt-[2rem] -mt-[1rem]' : 'sm:mt-[11rem] mt-[8rem]'}`}
+          className={`flex absolute p-1 opacity-70 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? 'sm:-mt-[2rem] -mt-[1rem]' : 'sm:mt-[11rem] mt-[8rem]'}`}
         >
-          <div className='flex '>
+          <div className=' flex justify-center'>
             <input
               className="w-4/5 px-1.5 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
               style={{
@@ -110,10 +110,7 @@ const MovableInputBox = () => {
               onChange={handleInputChange}
               rows="1"
             />
-            {/* <div className="flex justify-end border-[1px]  border-gray-100 "  onClick={handleButtonClick}>
-            <MdOutlineDoneOutline className='text-white w-[2rem] h-[1.5rem]'/>
-              
-            </div> */}
+            
           </div>
         </div>
         <div
