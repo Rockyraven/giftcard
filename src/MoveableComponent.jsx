@@ -63,7 +63,11 @@ const MovableInputBox = () => {
   };
 
   const handleBackgroundChange = (image) => {
-    setImageType(!imageType);
+    if (image.includes("pic1")) {
+      setImageType(true);
+    } else {
+      setImageType(false);
+    }
     setBackgroundImage(image);
   };
 
@@ -131,7 +135,7 @@ const MovableInputBox = () => {
                 src={image}
                 alt={`Background ${index + 1}`}
                 onClick={() => handleBackgroundChange(image)}
-                className={`w-24 h-24 object-cover cursor-pointer border-2 ${backgroundImage === image ? 'border-blue-500' : 'border-gray-300'}`}
+                className={`w-24 h-24 object-cover cursor-pointer border-[0.5rem] ${backgroundImage === image ? 'border-blue-500 ' : 'border-gray-300'}`}
               />
             ))}
           </div>
