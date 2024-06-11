@@ -2,187 +2,128 @@ import React, { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import image1 from '../public/pic.png';
 import image2 from '../public/pic1.jpeg';
-
+import { MdOutlineDoneOutline } from "react-icons/md";
 
 const MovableInputBox = () => {
-  const [position, setPosition] = useState({ x: 100, y: 100 });
-  const [dragging, setDragging] = useState(false);
   const [inputText, setInputText] = useState('');
-  const [printedTexts, setPrintedTexts] = useState([]);
+  const [printedTexts, setPrintedTexts] = useState('');
   const [backgroundImage, setBackgroundImage] = useState(image1);
+  const [imageHeight, setImageHeight] = useState('100%');
   const inputRef = useRef(null);
   const containerRef = useRef(null);
+  const [imageType, setImageType] = useState(false);
 
   const backgroundImages = [image1, image2];
 
   useEffect(() => {
-    // Preload background images to ensure they're loaded before capturing
-    backgroundImages.forEach((imgSrc) => {
-      const img = new Image();
-      img.src = imgSrc;
-    });
-  }, []);
-
-  const onMouseDown = () => {
-    setDragging(true);
-    inputRef.current.style.cursor = 'grabbing';
-  };
-
-  const onMouseUp = () => {
-    setDragging(false);
-    inputRef.current.style.cursor = 'grab';
-  };
-
-  const onMouseMove = (e) => {
-    if (dragging) {
-      const newX = position.x + e.movementX;
-      const newY = position.y + e.movementY;
-      setPosition({ x: newX, y: newY });
-    }
-  };
-
-  const onTouchStart = () => {
-    setDragging(true);
-    inputRef.current.style.cursor = 'grabbing';
-  };
-
-  const onTouchEnd = () => {
-    setDragging(false);
-    inputRef.current.style.cursor = 'grab';
-  };
-
-  const onTouchMove = (e) => {
-    if (dragging) {
-      const touch = e.touches[0];
-      const newX = touch.clientX - inputRef.current.clientWidth / 2;
-      const newY = touch.clientY - inputRef.current.clientHeight / 2;
-      setPosition({ x: newX, y: newY });
-    }
-  };
+    const img = new Image();
+    img.src = backgroundImage;
+    img.onload = () => {
+      const containerWidth = containerRef.current.clientWidth;
+      const aspectRatio = img.naturalWidth / img.naturalHeight;
+      const height = containerWidth / aspectRatio;
+      setImageHeight(`${height}px`);
+    };
+  }, [backgroundImage]);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
   const handleButtonClick = () => {
-    setPrintedTexts([...printedTexts, { text: inputText, position }]);
-    setInputText(''); // Clear the input box after printing
+    setPrintedTexts(inputText);
+    setInputText('');
   };
 
-  const handleDownloadClick = () => {
-    // Temporarily hide the input div for screenshot
-    const inputDiv = inputRef.current;
-    const originalDisplay = inputDiv.style.display;
-    inputDiv.style.display = 'none';
+  const handleDownloadClick = async () => {
+    try {
+      const inputDiv = inputRef.current;
+      const originalDisplay = inputDiv.style.display;
+      inputDiv.style.display = 'none';
 
-    // Temporarily set background color to transparent
-    const containerDiv = containerRef.current;
-    const originalBackgroundColor = containerDiv.style.backgroundColor;
-    containerDiv.style.backgroundColor = 'transparent';
+      const containerDiv = containerRef.current;
+      const originalBackgroundColor = containerDiv.style.backgroundColor;
+      containerDiv.style.backgroundColor = 'transparent';
 
-    html2canvas(containerRef.current, { useCORS: true, backgroundColor: null }).then((canvas) => {
-      // Restore the display of the input div and background color after screenshot
+      const canvas = await html2canvas(containerRef.current, {
+        useCORS: true,
+        backgroundColor: null,
+      });
+
       inputDiv.style.display = originalDisplay;
       containerDiv.style.backgroundColor = originalBackgroundColor;
 
-      // Create a link element to download the image
       const link = document.createElement('a');
       link.download = 'gift.png';
-      link.href = canvas.toDataURL();
+      link.href = canvas.toDataURL('image/png');
       link.click();
-    });
+    } catch (error) {
+      console.error('Failed to capture and download the image:', error);
+    }
   };
 
   const handleBackgroundChange = (image) => {
+    setImageType(!imageType);
     setBackgroundImage(image);
   };
 
   return (
-    <div
-      className="flex h-screen"
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      {/* Left part for input box and printed texts */}
+    <div className="flex sm:flex-row flex-col ">
       <div
         ref={containerRef}
-        className="w-1/2 relative border-r border-gray-300 bg-cover bg-center"
+        className={`sm:w-1/2 w-full relative border-r border-gray-300 bg-cover bg-center flex ${!imageType ? 'justify-center items-center' : 'justify-end items-center'}`}
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'contain',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          height: '100%',
+          height: imageHeight,
         }}
       >
         <div
           ref={inputRef}
-          onMouseDown={onMouseDown}
-          onTouchStart={onTouchStart}
-          className="flex gap-2 absolute p-2 bg-white opacity-70 border border-gray-300 rounded shadow-lg cursor-grab"
-          style={{ top: position.y, left: position.x }}
+          className={`flex gap-2 absolute p-1 opacity-70 border border-gray-100 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? '-mt-[3rem]' : 'mt-[12rem]'}`}
         >
-          <input
-            type="text"
-            className="w-full px-2 py-1 mb-2 border border-gray-300 rounded bg-transparent placeholder-gray-500"
-            style={{
-              color: 'yellow',
-              fontSize: '14px', 
-              fontWeight: 'bold', 
-              fontStyle: 'italic', 
-              letterSpacing: '1px', 
-              textTransform: 'uppercase', 
-            }}
-            placeholder="Type something..."
-            value={inputText}
-            onChange={handleInputChange}
-          />
-          {/* Signature symbol */}
-          <div className="flex justify-end">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-blue-500 hover:text-blue-600 cursor-pointer"
-              onClick={handleButtonClick}
-            >
-              <path d="M3 3l18 18m-18 0L21 3"></path>
-            </svg>
+          <div className='flex '>
+            <input
+              className="w-full px-2 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
+              style={{
+                color: 'yellow',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                fontStyle: 'italic',
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+              }}
+              placeholder="Type something..."
+              value={inputText}
+              onChange={handleInputChange}
+              rows="1" 
+            />
+            <div className="flex justify-end border-[1px]  border-gray-100 "  onClick={handleButtonClick}>
+            <MdOutlineDoneOutline className='text-white w-[2rem] h-[1.5rem]'/>
+              
+            </div>
           </div>
         </div>
-
-        {printedTexts.map((printedText, index) => (
-          <div
-            key={index}
-            className="absolute p-2"
-            style={{
-              top: `calc(${printedText.position.y}px + 12px)`,
-              left: `calc(${printedText.position.x}px + 12px)`,
-              color: 'yellow',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              fontStyle: 'italic',
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
-            }}
-          >
-            {printedText.text}
-          </div>
-        ))}
+        <div
+          className={`${!imageType ? '-mt-[3rem]' : 'mt-[12rem] mr-[2rem]'}`}
+          style={{
+            color: 'yellow',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            fontStyle: 'italic',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+          }}
+        >
+          {printedTexts}
+        </div>
       </div>
 
-      {/* Right part for buttons */}
-      <div className="w-1/2 flex flex-col justify-center items-center space-y-4">
+      <div className=" sm:w-1/2 w-full flex flex-col justify-center items-center space-y-4">
         <div className="flex flex-col items-center space-y-2">
-          <label className="font-medium">Select Background:</label>
+          <label className="font-medium">Select Tamlate</label>
           <div className="grid grid-cols-3 gap-4">
             {backgroundImages.map((image, index) => (
               <img
@@ -190,9 +131,7 @@ const MovableInputBox = () => {
                 src={image}
                 alt={`Background ${index + 1}`}
                 onClick={() => handleBackgroundChange(image)}
-                className={`w-24 h-24 object-cover cursor-pointer border-2 ${
-                  backgroundImage === image ? 'border-blue-500' : 'border-gray-300'
-                }`}
+                className={`w-24 h-24 object-cover cursor-pointer border-2 ${backgroundImage === image ? 'border-blue-500' : 'border-gray-300'}`}
               />
             ))}
           </div>
