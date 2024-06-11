@@ -1,13 +1,16 @@
 import Footer from "./Footer"
 import MovableInputBox from "./MoveableComponent"
-
-
+import Header from "./Header"
 function App() {
 
   return (
     <>
-     <MovableInputBox />
-     <Footer/>
+      <div>
+        <Header/>
+        <MovableInputBox />
+        <Footer />
+        
+      </div>
     </>
   )
 }

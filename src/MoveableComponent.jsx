@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
-import image1 from '../public/image1.jpeg';
-import image2 from '../public/image2.jpeg';
-import image3 from '../public/image3.jpeg';
+import image1 from '../public/pic.png';
+import image2 from '../public/pic1.jpeg';
+
 
 const MovableInputBox = () => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [dragging, setDragging] = useState(false);
   const [inputText, setInputText] = useState('');
   const [printedTexts, setPrintedTexts] = useState([]);
-  const [backgroundImage, setBackgroundImage] = useState('https://static.vecteezy.com/system/resources/thumbnails/026/365/937/small_2x/beautiful-blurred-green-nature-background-ai-generated-photo.jpg');
+  const [backgroundImage, setBackgroundImage] = useState(image1);
   const inputRef = useRef(null);
   const containerRef = useRef(null);
 
-  const backgroundImages = [image1, image2, image3];
+  const backgroundImages = [image1, image2];
 
   useEffect(() => {
     // Preload background images to ensure they're loaded before capturing
@@ -128,12 +128,12 @@ const MovableInputBox = () => {
             type="text"
             className="w-full px-2 py-1 mb-2 border border-gray-300 rounded bg-transparent placeholder-gray-500"
             style={{
-              color: 'black',
-              fontSize: '14px', // Change this to your desired font size
-              fontWeight: 'bold', // Change this to make the font bold
-              fontStyle: 'italic', // Change this to make the font italic
-              letterSpacing: '1px', // Change this to adjust the letter spacing
-              textTransform: 'uppercase', // Change this to transform text to uppercase
+              color: 'yellow',
+              fontSize: '14px', 
+              fontWeight: 'bold', 
+              fontStyle: 'italic', 
+              letterSpacing: '1px', 
+              textTransform: 'uppercase', 
             }}
             placeholder="Type something..."
             value={inputText}
@@ -166,7 +166,7 @@ const MovableInputBox = () => {
             style={{
               top: `calc(${printedText.position.y}px + 12px)`,
               left: `calc(${printedText.position.x}px + 12px)`,
-              color: 'white',
+              color: 'yellow',
               fontSize: '16px',
               fontWeight: 'bold',
               fontStyle: 'italic',
