@@ -6,13 +6,22 @@ const MovableInputBox = () => {
   const [dragging, setDragging] = useState(false);
   const [inputText, setInputText] = useState('');
   const [printedTexts, setPrintedTexts] = useState([]);
+  const [backgroundImage, setBackgroundImage] = useState('https://static.vecteezy.com/system/resources/thumbnails/026/365/937/small_2x/beautiful-blurred-green-nature-background-ai-generated-photo.jpg');
   const inputRef = useRef(null);
   const containerRef = useRef(null);
 
+  const backgroundImages = [
+    'https://plus.unsplash.com/premium_photo-1706520000654-93561dcd1bd6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1717831499998-6f5bafe9e287?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1718010345201-e1d79e38985f?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  ];
+
   useEffect(() => {
-    // Preload background image to ensure it's loaded before capturing
-    const img = new Image();
-    img.src = 'https://static.vecteezy.com/system/resources/thumbnails/026/365/937/small_2x/beautiful-blurred-green-nature-background-ai-generated-photo.jpg';
+    // Preload background images to ensure they're loaded before capturing
+    backgroundImages.forEach((imgSrc) => {
+      const img = new Image();
+      img.src = imgSrc;
+    });
   }, []);
 
   const onMouseDown = (e) => {
@@ -60,6 +69,10 @@ const MovableInputBox = () => {
     });
   };
 
+  const handleBackgroundChange = (image) => {
+    setBackgroundImage(image);
+  };
+
   return (
     <div className="flex h-screen">
       {/* Left part for input box and printed texts */}
@@ -67,7 +80,7 @@ const MovableInputBox = () => {
         ref={containerRef}
         className="w-1/2 relative border-r border-gray-300 bg-cover bg-center"
         style={{
-          backgroundImage: "url('https://static.vecteezy.com/system/resources/thumbnails/026/365/937/small_2x/beautiful-blurred-green-nature-background-ai-generated-photo.jpg')",
+          backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           height: '100%'
@@ -83,7 +96,7 @@ const MovableInputBox = () => {
         >
           <input
             type="text"
-            className="w-full px-2 py-1 mb-2 border border-gray-300 rounded"
+            className="w-full px-2 py-1 mb-2 border border-gray-300 rounded bg-transparent text-transparent placeholder-gray-500"
             placeholder="Type something..."
             value={inputText}
             onChange={handleInputChange}
@@ -102,6 +115,22 @@ const MovableInputBox = () => {
 
       {/* Right part for buttons */}
       <div className="w-1/2 flex flex-col justify-center items-center space-y-4">
+        <div className="flex flex-col items-center space-y-2">
+          <label className="font-medium">Select Background:</label>
+          <div className="grid grid-cols-3 gap-4">
+            {backgroundImages.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`Background ${index + 1}`}
+                onClick={() => handleBackgroundChange(image)}
+                className={`w-24 h-24 object-cover cursor-pointer border-2 ${
+                  backgroundImage === image ? 'border-blue-500' : 'border-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
         <button
           onClick={handleButtonClick}
           className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
