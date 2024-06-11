@@ -41,6 +41,25 @@ const MovableInputBox = () => {
     }
   };
 
+  const onTouchStart = () => {
+    setDragging(true);
+    inputRef.current.style.cursor = 'grabbing';
+  };
+
+  const onTouchEnd = () => {
+    setDragging(false);
+    inputRef.current.style.cursor = 'grab';
+  };
+
+  const onTouchMove = (e) => {
+    if (dragging) {
+      const touch = e.touches[0];
+      const newX = touch.clientX - inputRef.current.clientWidth / 2;
+      const newY = touch.clientY - inputRef.current.clientHeight / 2;
+      setPosition({ x: newX, y: newY });
+    }
+  };
+
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
@@ -79,7 +98,13 @@ const MovableInputBox = () => {
   };
 
   return (
-    <div className="flex h-screen" onMouseMove={onMouseMove} onMouseUp={onMouseUp}>
+    <div
+      className="flex h-screen"
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {/* Left part for input box and printed texts */}
       <div
         ref={containerRef}
@@ -89,26 +114,26 @@ const MovableInputBox = () => {
           backgroundSize: 'contain',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          height: '100%'
+          height: '100%',
         }}
       >
-
         <div
           ref={inputRef}
           onMouseDown={onMouseDown}
+          onTouchStart={onTouchStart}
           className="flex gap-2 absolute p-2 bg-white opacity-70 border border-gray-300 rounded shadow-lg cursor-grab"
           style={{ top: position.y, left: position.x }}
         >
           <input
             type="text"
-            className="w-full px-2 py-1 mb-2 border border-gray-300 rounded bg-transparent placeholder-gray-500 bg-slate-500s"
+            className="w-full px-2 py-1 mb-2 border border-gray-300 rounded bg-transparent placeholder-gray-500"
             style={{
               color: 'black',
               fontSize: '14px', // Change this to your desired font size
               fontWeight: 'bold', // Change this to make the font bold
               fontStyle: 'italic', // Change this to make the font italic
               letterSpacing: '1px', // Change this to adjust the letter spacing
-              textTransform: 'uppercase' // Change this to transform text to uppercase
+              textTransform: 'uppercase', // Change this to transform text to uppercase
             }}
             placeholder="Type something..."
             value={inputText}
@@ -129,7 +154,7 @@ const MovableInputBox = () => {
               className="text-blue-500 hover:text-blue-600 cursor-pointer"
               onClick={handleButtonClick}
             >
-              <path d="M12 19l9-7-9-7v14zM2 12h14"></path>
+              <path d="M3 3l18 18m-18 0L21 3"></path>
             </svg>
           </div>
         </div>
@@ -146,7 +171,7 @@ const MovableInputBox = () => {
               fontWeight: 'bold',
               fontStyle: 'italic',
               letterSpacing: '1px',
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
             }}
           >
             {printedText.text}
@@ -165,7 +190,9 @@ const MovableInputBox = () => {
                 src={image}
                 alt={`Background ${index + 1}`}
                 onClick={() => handleBackgroundChange(image)}
-                className={`w-24 h-24 object-cover cursor-pointer border-2 ${backgroundImage === image ? 'border-blue-500' : 'border-gray-300'}`}
+                className={`w-24 h-24 object-cover cursor-pointer border-2 ${
+                  backgroundImage === image ? 'border-blue-500' : 'border-gray-300'
+                }`}
               />
             ))}
           </div>
