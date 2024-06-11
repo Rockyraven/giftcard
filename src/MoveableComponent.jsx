@@ -107,7 +107,7 @@ const MovableInputBox = () => {
           </div>
         </div>
         <div
-          className={`${!imageType ? '-mt-[3rem]' : 'mt-[12rem] mr-[2rem]'}`}
+          className={`${!imageType ? '-mt-[3rem]' : 'sm:mt-[12rem] mt-[8rem] mr-[2rem]'}`}
           style={{
             color: 'yellow',
             fontSize: '16px',
@@ -121,7 +121,7 @@ const MovableInputBox = () => {
         </div>
       </div>
 
-      <div className=" sm:w-1/2 w-full flex flex-col justify-center items-center space-y-4">
+      <div className=" sm:w-1/2 w-full flex flex-col justify-center items-center space-y-4 mb-4">
         <div className="flex flex-col items-center space-y-2">
           <label className="font-medium">Select Tamplates</label>
           <div className="flex justify-center gap-5">
