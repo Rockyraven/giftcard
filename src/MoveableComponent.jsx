@@ -82,7 +82,7 @@ const MovableInputBox = () => {
       >
         <div
           ref={inputRef}
-          className={`flex gap-2 absolute p-1 opacity-70 border border-gray-100 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? '-mt-[3rem]' : 'mt-[12rem]'}`}
+          className={`flex gap-2 absolute p-1 opacity-70 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? '-mt-[3rem]' : 'mt-[12rem]'}`}
         >
           <div className='flex '>
             <input
