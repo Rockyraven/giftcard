@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
+import image1 from '../public/image1.jpeg';
+import image2 from '../public/image2.jpeg'
+import image3 from '../public/image3.jpeg'
 
 const MovableInputBox = () => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
@@ -11,9 +14,7 @@ const MovableInputBox = () => {
   const containerRef = useRef(null);
 
   const backgroundImages = [
-    'https://plus.unsplash.com/premium_photo-1706520000654-93561dcd1bd6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1717831499998-6f5bafe9e287?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1718010345201-e1d79e38985f?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    image1, image2, image3
   ];
 
   useEffect(() => {
@@ -57,13 +58,19 @@ const MovableInputBox = () => {
     const originalDisplay = inputDiv.style.display;
     inputDiv.style.display = 'none';
 
-    html2canvas(containerRef.current, { useCORS: true }).then((canvas) => {
-      // Restore the display of the input div after screenshot
+    // Temporarily set background color to transparent
+    const containerDiv = containerRef.current;
+    const originalBackgroundColor = containerDiv.style.backgroundColor;
+    containerDiv.style.backgroundColor = 'transparent';
+
+    html2canvas(containerRef.current, { useCORS: true, backgroundColor: null }).then((canvas) => {
+      // Restore the display of the input div and background color after screenshot
       inputDiv.style.display = originalDisplay;
+      containerDiv.style.backgroundColor = originalBackgroundColor;
 
       // Create a link element to download the image
       const link = document.createElement('a');
-      link.download = 'screenshot.png';
+      link.download = 'gift.png';
       link.href = canvas.toDataURL();
       link.click();
     });
@@ -81,32 +88,71 @@ const MovableInputBox = () => {
         className="w-1/2 relative border-r border-gray-300 bg-cover bg-center"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
           backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           height: '100%'
         }}
       >
+
         <div
           ref={inputRef}
           onMouseDown={onMouseDown}
           onMouseUp={onMouseUp}
           onMouseMove={onMouseMove}
-          className="absolute p-4 bg-white border border-gray-300 rounded shadow-lg cursor-grab"
+          className="flex gap-2 absolute p-2 bg-white opacity-70 border border-gray-300 rounded shadow-lg cursor-grab"
           style={{ top: position.y, left: position.x }}
         >
           <input
             type="text"
-            className="w-full px-2 py-1 mb-2 border border-gray-300 rounded bg-transparent text-transparent placeholder-gray-500"
+            className="w-full px-2 py-1 mb-2 border border-gray-300 rounded bg-transparent placeholder-gray-500 bg-slate-500s"
+            style={{
+              color: 'black',
+              fontSize: '14px', // Change this to your desired font size
+              fontWeight: 'bold', // Change this to make the font bold
+              fontStyle: 'italic', // Change this to make the font italic
+              letterSpacing: '1px', // Change this to adjust the letter spacing
+              textTransform: 'uppercase' // Change this to transform text to uppercase
+            }}
             placeholder="Type something..."
             value={inputText}
             onChange={handleInputChange}
           />
+          {/* Signature symbol */}
+          <div className="flex justify-end">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-blue-500 hover:text-blue-600 cursor-pointer"
+              onClick={handleButtonClick}
+            >
+              <path d="M3 3l18 18m-18 0L21 3"></path>
+            </svg>
+          </div>
         </div>
+
+
         {printedTexts.map((printedText, index) => (
           <div
             key={index}
-            className="absolute p-2 bg-yellow-200 border border-gray-300 rounded"
-            style={{ top: printedText.position.y, left: printedText.position.x }}
+            className="absolute p-2 "
+            style={{
+              top: `calc(${printedText.position.y}px + 12px)`,
+              left: `calc(${printedText.position.x}px + 12px)`,
+              color: 'white',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              fontStyle: 'italic',
+              letterSpacing: '1px',
+              textTransform: 'uppercase'
+            }}
           >
             {printedText.text}
           </div>
@@ -124,19 +170,13 @@ const MovableInputBox = () => {
                 src={image}
                 alt={`Background ${index + 1}`}
                 onClick={() => handleBackgroundChange(image)}
-                className={`w-24 h-24 object-cover cursor-pointer border-2 ${
-                  backgroundImage === image ? 'border-blue-500' : 'border-gray-300'
-                }`}
+                className={`w-24 h-24 object-cover cursor-pointer border-2 ${backgroundImage === image ? 'border-blue-500' : 'border-gray-300'
+                  }`}
               />
             ))}
           </div>
         </div>
-        <button
-          onClick={handleButtonClick}
-          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-        >
-          Print
-        </button>
+
         <button
           onClick={handleDownloadClick}
           className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
