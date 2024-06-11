@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import image1 from '../public/image1.jpeg';
-import image2 from '../public/image2.jpeg'
-import image3 from '../public/image3.jpeg'
+import image2 from '../public/image2.jpeg';
+import image3 from '../public/image3.jpeg';
 
 const MovableInputBox = () => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
@@ -13,9 +13,7 @@ const MovableInputBox = () => {
   const inputRef = useRef(null);
   const containerRef = useRef(null);
 
-  const backgroundImages = [
-    image1, image2, image3
-  ];
+  const backgroundImages = [image1, image2, image3];
 
   useEffect(() => {
     // Preload background images to ensure they're loaded before capturing
@@ -25,7 +23,7 @@ const MovableInputBox = () => {
     });
   }, []);
 
-  const onMouseDown = (e) => {
+  const onMouseDown = () => {
     setDragging(true);
     inputRef.current.style.cursor = 'grabbing';
   };
@@ -81,7 +79,7 @@ const MovableInputBox = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen" onMouseMove={onMouseMove} onMouseUp={onMouseUp}>
       {/* Left part for input box and printed texts */}
       <div
         ref={containerRef}
@@ -98,8 +96,6 @@ const MovableInputBox = () => {
         <div
           ref={inputRef}
           onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          onMouseMove={onMouseMove}
           className="flex gap-2 absolute p-2 bg-white opacity-70 border border-gray-300 rounded shadow-lg cursor-grab"
           style={{ top: position.y, left: position.x }}
         >
@@ -133,16 +129,15 @@ const MovableInputBox = () => {
               className="text-blue-500 hover:text-blue-600 cursor-pointer"
               onClick={handleButtonClick}
             >
-              <path d="M3 3l18 18m-18 0L21 3"></path>
+              <path d="M12 19l9-7-9-7v14zM2 12h14"></path>
             </svg>
           </div>
         </div>
 
-
         {printedTexts.map((printedText, index) => (
           <div
             key={index}
-            className="absolute p-2 "
+            className="absolute p-2"
             style={{
               top: `calc(${printedText.position.y}px + 12px)`,
               left: `calc(${printedText.position.x}px + 12px)`,
@@ -170,8 +165,7 @@ const MovableInputBox = () => {
                 src={image}
                 alt={`Background ${index + 1}`}
                 onClick={() => handleBackgroundChange(image)}
-                className={`w-24 h-24 object-cover cursor-pointer border-2 ${backgroundImage === image ? 'border-blue-500' : 'border-gray-300'
-                  }`}
+                className={`w-24 h-24 object-cover cursor-pointer border-2 ${backgroundImage === image ? 'border-blue-500' : 'border-gray-300'}`}
               />
             ))}
           </div>
