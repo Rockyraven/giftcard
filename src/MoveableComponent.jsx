@@ -127,7 +127,7 @@ const MovableInputBox = () => {
 
       <div className=" sm:w-1/2 w-full flex flex-col justify-center items-center space-y-4 mb-4">
         <div className="flex flex-col items-center space-y-2">
-          <label className="font-medium">Select Tamplates</label>
+          <label className="font-medium">Select Templates</label>
           <div className="flex justify-center gap-5">
             {backgroundImages.map((image, index) => (
               <img
