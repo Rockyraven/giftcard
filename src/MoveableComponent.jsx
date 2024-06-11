@@ -35,31 +35,37 @@ const MovableInputBox = () => {
     setInputText('');
   };
 
-  const handleDownloadClick = async () => {
+  const handleDownloadClick = async (event) => {
     try {
-      const inputDiv = inputRef.current;
-      const originalDisplay = inputDiv.style.display;
-      inputDiv.style.display = 'none';
+      setPrintedTexts(inputText);
+      // setInputText('');
+      const inputDiv = await inputRef.current;
+      const originalDisplay = await inputDiv.style.display;
+      inputDiv.style.display = await 'none';
 
-      const containerDiv = containerRef.current;
-      const originalBackgroundColor = containerDiv.style.backgroundColor;
-      containerDiv.style.backgroundColor = 'transparent';
+      const containerDiv = await containerRef.current;
+      const originalBackgroundColor = await containerDiv.style.backgroundColor;
+      containerDiv.style.backgroundColor = await 'transparent';
 
       const canvas = await html2canvas(containerRef.current, {
         useCORS: true,
         backgroundColor: null,
       });
 
-      inputDiv.style.display = originalDisplay;
-      containerDiv.style.backgroundColor = originalBackgroundColor;
+      inputDiv.style.display = await originalDisplay;
+      containerDiv.style.backgroundColor = await originalBackgroundColor;
 
-      const link = document.createElement('a');
-      link.download = 'gift.png';
-      link.href = canvas.toDataURL('image/png');
+      const link = await document.createElement('a');
+      link.download = await 'gift.png';
+      link.href = await canvas.toDataURL('image/png');
       link.click();
+      // event.preventDefault();
+      
     } catch (error) {
       console.error('Failed to capture and download the image:', error);
     }
+    setPrintedTexts('');
+     setInputText('');
   };
 
   const handleBackgroundChange = (image) => {
@@ -90,7 +96,7 @@ const MovableInputBox = () => {
         >
           <div className='flex '>
             <input
-              className="w-full px-2 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
+              className="w-4/5 px-1.5 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
               style={{
                 color: 'yellow',
                 fontSize: '14px',
@@ -102,12 +108,12 @@ const MovableInputBox = () => {
               placeholder="Type something..."
               value={inputText}
               onChange={handleInputChange}
-              rows="1" 
+              rows="1"
             />
-            <div className="flex justify-end border-[1px]  border-gray-100 "  onClick={handleButtonClick}>
+            {/* <div className="flex justify-end border-[1px]  border-gray-100 "  onClick={handleButtonClick}>
             <MdOutlineDoneOutline className='text-white w-[2rem] h-[1.5rem]'/>
               
-            </div>
+            </div> */}
           </div>
         </div>
         <div
@@ -142,6 +148,7 @@ const MovableInputBox = () => {
         </div>
 
         <button
+        type="button"
           onClick={handleDownloadClick}
           className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
         >
