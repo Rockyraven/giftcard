@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import image1 from '../public/pic.jpg';
 import image2 from '../public/pic1.jpg';
-import { MdOutlineDoneOutline } from "react-icons/md";
-
 const MovableInputBox = () => {
   const [inputText, setInputText] = useState('');
   const [printedTexts, setPrintedTexts] = useState('');
