@@ -39,13 +39,13 @@ const MovableInputBox = () => {
     try {
       setPrintedTexts(inputText);
       // setInputText('');
-      const inputDiv = inputRef.current;
-      const originalDisplay = inputDiv.style.display;
-      inputDiv.style.display = 'none';
+      const inputDiv = await inputRef.current;
+      const originalDisplay = await inputDiv.style.display;
+      inputDiv.style.display = await 'none';
   
-      const containerDiv = containerRef.current;
-      const originalBackgroundColor = containerDiv.style.backgroundColor;
-      containerDiv.style.backgroundColor = 'transparent';
+      const containerDiv = await containerRef.current;
+      const originalBackgroundColor = await containerDiv.style.backgroundColor;
+      containerDiv.style.backgroundColor = await 'transparent';
   
       const scale = 5; // Increase the resolution by this factor
       const canvas = await html2canvas(containerDiv, {
@@ -54,10 +54,10 @@ const MovableInputBox = () => {
         scale: scale, // Scaling factor
       });
   
-      inputDiv.style.display = originalDisplay;
-      containerDiv.style.backgroundColor = originalBackgroundColor;
+      inputDiv.style.display = await originalDisplay;
+      containerDiv.style.backgroundColor = await originalBackgroundColor;
   
-      canvas.toBlob((blob) => {
+      await canvas.toBlob((blob) => {
         const link = document.createElement('a');
         link.download = 'gift.jpg';
         link.href = URL.createObjectURL(blob);
