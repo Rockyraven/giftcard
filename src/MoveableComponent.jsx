@@ -45,11 +45,12 @@ const MovableInputBox = () => {
       const originalBackgroundColor = await containerDiv.style.backgroundColor;
       containerDiv.style.backgroundColor = await 'transparent';
 
-      let scale = 5; // Start with a higher scale
+      let scale = 2; // Start with a lower scale
       let imageSize = 0;
       let blob;
 
-      while (imageSize < 10 * 512 * 1024) { 
+      // Reduce the scale increments for faster calculation
+      while (imageSize < 10 * 512 * 1024 && scale <= 5) { 
         const canvas = await html2canvas(containerDiv, {
           useCORS: true,
           backgroundColor: null,
