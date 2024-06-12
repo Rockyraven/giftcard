@@ -50,7 +50,7 @@ const MovableInputBox = () => {
       let blob;
 
       // Reduce the scale increments for faster calculation
-      while (imageSize < 10 * 512 * 1024 && scale <= 5) { 
+      while (imageSize < 3 * 1024 * 1024 && scale <= 5) { 
         const canvas = await html2canvas(containerDiv, {
           useCORS: true,
           backgroundColor: null,
