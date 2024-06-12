@@ -49,7 +49,7 @@ const MovableInputBox = () => {
       let imageSize = 0;
       let blob;
 
-      while (imageSize < 10 * 1024 * 1024) { 
+      while (imageSize < 10 * 512 * 1024) { 
         const canvas = await html2canvas(containerDiv, {
           useCORS: true,
           backgroundColor: null,
