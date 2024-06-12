@@ -35,6 +35,45 @@ const MovableInputBox = () => {
     setInputText('');
   };
 
+  // const handleDownloadClick = async (event) => {
+  //   try {
+  //     setPrintedTexts(inputText);
+  //     // setInputText('');
+  //     const inputDiv = await inputRef.current;
+  //     const originalDisplay = await inputDiv.style.display;
+  //     inputDiv.style.display = await 'none';
+  
+  //     const containerDiv = await containerRef.current;
+  //     const originalBackgroundColor = await containerDiv.style.backgroundColor;
+  //     containerDiv.style.backgroundColor = await 'transparent';
+  
+  //     const scale = 5; // Increase the resolution by this factor
+  //     const canvas = await html2canvas(containerDiv, {
+  //       useCORS: true,
+  //       backgroundColor: null,
+  //       scale: scale, // Scaling factor
+  //     });
+  
+  //     inputDiv.style.display = await originalDisplay;
+  //     containerDiv.style.backgroundColor = await originalBackgroundColor;
+  
+  //     await canvas.toBlob((blob) => {
+  //       const link = document.createElement('a');
+  //       link.download = 'gift.jpg';
+  //       link.href = URL.createObjectURL(blob);
+  //       link.click();
+  //       // Cleanup
+  //       URL.revokeObjectURL(link.href);
+  //     }, 'image/jpeg', 1.0); // 1.0 for highest quality
+      
+  //     // event.preventDefault();
+  
+  //   } catch (error) {
+  //     console.error('Failed to capture and download the image:', error);
+  //   }
+  //   setPrintedTexts('');
+  //   setInputText('');
+  // };
   const handleDownloadClick = async (event) => {
     try {
       setPrintedTexts(inputText);
@@ -47,25 +86,35 @@ const MovableInputBox = () => {
       const originalBackgroundColor = await containerDiv.style.backgroundColor;
       containerDiv.style.backgroundColor = await 'transparent';
   
-      const scale = 5; // Increase the resolution by this factor
-      const canvas = await html2canvas(containerDiv, {
-        useCORS: true,
-        backgroundColor: null,
-        scale: scale, // Scaling factor
-      });
+      let scale = 5; // Start with a higher scale
+      let imageSize = 0;
+      let blob;
   
-      inputDiv.style.display = await originalDisplay;
-      containerDiv.style.backgroundColor = await originalBackgroundColor;
+      while (imageSize < 10 * 1024 * 1024) { // Check if image is less than 10MB
+        const canvas = await html2canvas(containerDiv, {
+          useCORS: true,
+          backgroundColor: null,
+          scale: scale, // Scaling factor
+        });
   
-      await canvas.toBlob((blob) => {
-        const link = document.createElement('a');
-        link.download = 'gift.jpg';
-        link.href = URL.createObjectURL(blob);
-        link.click();
-        // Cleanup
-        URL.revokeObjectURL(link.href);
-      }, 'image/jpeg', 1.0); // 1.0 for highest quality
-      
+        inputDiv.style.display = await originalDisplay;
+        containerDiv.style.backgroundColor = await originalBackgroundColor;
+  
+        blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 1.0)); // 1.0 for highest quality
+        imageSize = blob.size;
+        
+        if (imageSize < 10 * 1024 * 1024) {
+          scale += 1; // Increase the scale if image is still smaller than 10MB
+        }
+      }
+  
+      const link = await document.createElement('a');
+      link.download = 'gift.jpg';
+      link.href = URL.createObjectURL(blob);
+      link.click();
+      // Cleanup
+      URL.revokeObjectURL(link.href);
+  
       // event.preventDefault();
   
     } catch (error) {
