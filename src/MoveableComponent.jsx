@@ -111,7 +111,7 @@ const MovableInputBox = () => {
                 color: '#e2a93f',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                fontStyle: 'italic',
+                // fontStyle: 'italic',
                 letterSpacing: '1px',
               }}
               className="w-4/5 px-1.5 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
@@ -123,12 +123,12 @@ const MovableInputBox = () => {
           </div>
         </div>
         <div
-          className={`${!imageType ? '-mt-[3rem]' : 'sm:mt-[12rem] mt-[8rem] mr-[5rem]'}`}
+          className={`${!imageType ? '-mt-[3rem]' : 'sm:mt-[12rem] mt-[8rem] mr-[3rem]'}`}
           style={{
             color: '#e2a93f',
             fontSize: '16px',
             fontWeight: 'bold',
-            fontStyle: 'italic',
+            // fontStyle: 'italic',
             letterSpacing: '1px',
           }}
         >
