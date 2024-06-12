@@ -8,7 +8,8 @@ function App() {
       <div className="font-dona">
         <Header/>
         <MovableInputBox />
-        <Footer />
+        <div><Footer/></div>
+        {/* <Footer /> */}
         
       </div>
     </>
