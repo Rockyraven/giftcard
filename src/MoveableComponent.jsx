@@ -153,15 +153,15 @@ const MovableInputBox = () => {
         >
           <div className=' flex justify-center'>
             <input
-              className="w-4/5 px-1.5 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
               style={{
-                color: 'yellow',
+                color: '#e2a93f',
                 fontSize: '16px',
                 fontWeight: 'bold',
                 fontStyle: 'italic',
                 letterSpacing: '1px',
-                textTransform: 'uppercase',
+                // textTransform: 'uppercase',
               }}
+              className="w-4/5 px-1.5 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
               placeholder="Type something..."
               value={inputText}
               onChange={handleInputChange}
@@ -173,12 +173,12 @@ const MovableInputBox = () => {
         <div
           className={`${!imageType ? '-mt-[3rem]' : 'sm:mt-[12rem] mt-[8rem] mr-[2rem]'}`}
           style={{
-            color: 'yellow',
+            color: '#e2a93f',
             fontSize: '16px',
             fontWeight: 'bold',
             fontStyle: 'italic',
             letterSpacing: '1px',
-            textTransform: 'uppercase',
+           
           }}
         >
           {printedTexts}
