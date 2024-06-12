@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
-import image1 from '../public/pic.png';
-import image2 from '../public/pic1.jpeg';
+import image1 from '../public/pic.jpg';
+import image2 from '../public/pic1.jpg';
 import { MdOutlineDoneOutline } from "react-icons/md";
 
 const MovableInputBox = () => {
@@ -39,34 +39,42 @@ const MovableInputBox = () => {
     try {
       setPrintedTexts(inputText);
       // setInputText('');
-      const inputDiv = await inputRef.current;
-      const originalDisplay = await inputDiv.style.display;
-      inputDiv.style.display = await 'none';
-
-      const containerDiv = await containerRef.current;
-      const originalBackgroundColor = await containerDiv.style.backgroundColor;
-      containerDiv.style.backgroundColor = await 'transparent';
-
-      const canvas = await html2canvas(containerRef.current, {
+      const inputDiv = inputRef.current;
+      const originalDisplay = inputDiv.style.display;
+      inputDiv.style.display = 'none';
+  
+      const containerDiv = containerRef.current;
+      const originalBackgroundColor = containerDiv.style.backgroundColor;
+      containerDiv.style.backgroundColor = 'transparent';
+  
+      const scale = 5; // Increase the resolution by this factor
+      const canvas = await html2canvas(containerDiv, {
         useCORS: true,
         backgroundColor: null,
+        scale: scale, // Scaling factor
       });
-
-      inputDiv.style.display = await originalDisplay;
-      containerDiv.style.backgroundColor = await originalBackgroundColor;
-
-      const link = await document.createElement('a');
-      link.download = await 'gift.png';
-      link.href = await canvas.toDataURL('image/png');
-      link.click();
-      // event.preventDefault();
+  
+      inputDiv.style.display = originalDisplay;
+      containerDiv.style.backgroundColor = originalBackgroundColor;
+  
+      canvas.toBlob((blob) => {
+        const link = document.createElement('a');
+        link.download = 'gift.jpg';
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        // Cleanup
+        URL.revokeObjectURL(link.href);
+      }, 'image/jpeg', 1.0); // 1.0 for highest quality
       
+      // event.preventDefault();
+  
     } catch (error) {
       console.error('Failed to capture and download the image:', error);
     }
     setPrintedTexts('');
-     setInputText('');
+    setInputText('');
   };
+  
 
   const handleBackgroundChange = (image) => {
     if (image.includes("pic1")) {
