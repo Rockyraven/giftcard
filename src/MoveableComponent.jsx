@@ -107,7 +107,7 @@ const MovableInputBox = () => {
               className="w-4/5 px-1.5 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
               style={{
                 color: 'yellow',
-                fontSize: '14px',
+                fontSize: '16px',
                 fontWeight: 'bold',
                 fontStyle: 'italic',
                 letterSpacing: '1px',
