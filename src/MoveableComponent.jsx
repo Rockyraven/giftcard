@@ -116,7 +116,7 @@ const MovableInputBox = () => {
                 letterSpacing: '1px',
               }}
               className="w-4/5 px-1.5 py-1.5 border-[1px] border-gray-300 rounded bg-transparent placeholder-gray-500 text-center"
-              placeholder="Type something..."
+              placeholder="Enter your name"
               value={inputText}
               onChange={handleInputChange}
               rows="1"
