@@ -104,7 +104,7 @@ const MovableInputBox = () => {
       >
         <div
           ref={inputRef}
-          className={`flex absolute p-1 opacity-70 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? 'sm:-mt-[2rem] -mt-[1rem]' : 'sm:mt-[11rem] mt-[8rem]'}`}
+          className={`flex absolute p-1 opacity-70 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? 'sm:-mt-[4rem] -mt-[2rem]' : 'sm:mt-[11rem] mt-[8rem]'}`}
         >
           <div className='flex justify-center'>
             <input
@@ -124,10 +124,10 @@ const MovableInputBox = () => {
           </div>
         </div>
         <div
-          className={`  text-center ${!imageType ? '-mt-[3rem]' : 'sm:mt-[12rem] mt-[8rem] mr-[3rem] sm:w-[200px] w-[100px]'}`}
+          className={`sm:text-xl text-lg  text-center ${!imageType ? 'sm:-mt-[4rem] -mt-[2rem] ' : 'sm:mt-[12rem] mt-[8rem] mr-[3rem] sm:w-[200px] w-[100px]'}`}
           style={{
             color: '#e2a93f',
-            fontSize: '18px',
+            // fontSize: '18px',
             fontWeight: 'bold',
             // fontStyle: 'italic',
             letterSpacing: '1px',
