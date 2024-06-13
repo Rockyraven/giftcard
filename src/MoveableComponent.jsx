@@ -124,7 +124,7 @@ const MovableInputBox = () => {
           </div>
         </div>
         <div
-          className={`sm:text-xl text-lg  text-center ${!imageType ? 'sm:-mt-[4rem] -mt-[2rem] ' : 'sm:mt-[12rem] mt-[8rem] mr-[3rem] sm:w-[200px] w-[100px]'}`}
+          className={`sm:text-xl text-lg  text-center ${!imageType ? 'sm:-mt-[5rem] -mt-[3rem] ' : 'sm:mt-[12rem] mt-[8rem] mr-[3rem] sm:w-[200px] w-[100px]'}`}
           style={{
             color: '#e2a93f',
             // fontSize: '18px',
