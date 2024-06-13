@@ -104,7 +104,7 @@ const MovableInputBox = () => {
       >
         <div
           ref={inputRef}
-          className={`flex absolute p-1 opacity-70 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? 'sm:-mt-[4rem] -mt-[2rem]' : 'sm:mt-[11rem] mt-[8rem]'}`}
+          className={`flex absolute p-1 opacity-70 rounded shadow-lg cursor-grab ${printedTexts ? 'hidden' : 'visible'} ${!imageType ? 'sm:-mt-[5rem] -mt-[4rem]' : 'sm:mt-[11rem] mt-[8rem]'}`}
         >
           <div className='flex justify-center'>
             <input
