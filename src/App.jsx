@@ -6,9 +6,9 @@ function App() {
   return (
     <>
       <div className="font-dona">
-        <Header/>
+        {/* <Header/> */}
         <MovableInputBox />
-        <div><Footer/></div>
+        {/* <div><Footer/></div> */}
         {/* <Footer /> */}
         
       </div>
