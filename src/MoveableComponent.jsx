@@ -99,7 +99,7 @@ const MovableInputBox = () => {
           backgroundSize: 'contain',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          // height: imageHeight,
+          height: imageHeight,
         }}
       >
         <div
