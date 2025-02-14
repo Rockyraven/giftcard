@@ -1,0 +1,195 @@
+/* Basic editor styles */
+:root {
+  --gray-3: #ccc; /* Define the gray-3 variable */
+  --gray-1: #f0f0f0; /* Define the gray-1 variable */
+  --gray-2: #e0e0e0; /* Define the gray-2 variable */
+  --purple: #958DF1; /* Define the purple variable */
+  --purple-light: #e0dffa; /* Define the purple-light variable */
+  --black: #262525; /* Define the black variable */
+  --white: #fff; /* Define the white variable */
+}
+
+.tiptap {
+    :first-child {
+      margin-top: 0;
+    }
+  
+    /* List styles */
+    ul, 
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+    
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+  
+    /* Heading styles */
+    h1, 
+    h2, 
+    h3, 
+    h4, 
+    h5, 
+    h6 {
+      line-height: 1.1;
+      margin-top: 2.5rem;
+      text-wrap: pretty;
+    }
+  
+    h1, 
+    h2 {
+      margin-top: 3.5rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    h1 { 
+      font-size: 1.4rem; 
+    }
+  
+    h2 { 
+      font-size: 1.2rem; 
+    }
+  
+    h3 { 
+      font-size: 1.1rem; 
+    }
+  
+    h4, 
+    h5, 
+    h6 { 
+      font-size: 1rem; 
+    }
+  
+    /* Code and preformatted text styles */
+    code {
+      background-color: var(--purple-light);
+      border-radius: 0.4rem;
+      color: var(--black);
+      font-size: 0.85rem;
+      padding: 0.25em 0.3em;
+    }
+  
+    pre {
+      background: var(--black);
+      border-radius: 0.5rem;
+      color: var(--white);
+      font-family: 'JetBrainsMono', monospace;
+      margin: 1.5rem 0;
+      padding: 0.75rem 1rem;
+  
+      code {
+        background: none;
+        color: inherit;
+        font-size: 0.8rem;
+        padding: 0;
+      }
+    }
+  
+    blockquote {
+      border-left: 3px solid var(--gray-3);
+      margin: 1.5rem 0;
+      padding-left: 1rem;
+    }
+  
+    hr {
+      border: none;
+      border-top: 1px solid var(--gray-2);
+      margin: 2rem 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 0;
+      overflow: hidden;
+      table-layout: fixed;
+      width: 100%;
+      border: 2px solid var(--gray-3); /* Add a border around the table */
+    
+      td,
+      th {
+        border: 1px solid var(--gray-3); /* Ensure cells have borders */
+        box-sizing: border-box;
+        min-width: 1em;
+        padding: 10px; /* Increase padding for better spacing */
+        position: relative;
+        vertical-align: top;
+        background-color: #f9f9f9; /* Light background for cells */
+    
+        > * {
+          margin-bottom: 0;
+        }
+      }
+    
+      th {
+        background-color: var(--gray-1); /* Header background */
+        font-weight: bold;
+        text-align: left;
+        color: #333; /* Darker text color for headers */
+      }
+    
+      .selectedCell:after {
+        background: rgba(0, 0, 255, 0.2); /* Highlight selected cell */
+        content: "";
+        left: 0; right: 0; top: 0; bottom: 0;
+        pointer-events: none;
+        position: absolute;
+        z-index: 2;
+      }
+    
+      .column-resize-handle {
+        background-color: var(--purple);
+        bottom: -2px;
+        pointer-events: none;
+        position: absolute;
+        right: -2px;
+        top: 0;
+        width: 4px;
+      }
+    }
+    
+    .tableWrapper {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+
+    // Image styles
+    /* Image styles */
+img {
+  display: block;
+  height: auto;
+  margin: 1rem 0;
+  max-width: 100%;
+
+  &.ProseMirror-selectednode {
+    outline: 3px solid var(--purple);
+  }
+
+  &.float-left {
+    float: left;
+    margin-right: 1.5rem;
+  }
+
+  &.float-right {
+    float: right;
+    margin-left: 1.5rem;
+  }
+
+  &.mx-auto {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+    
+  }
+
+  .editor:focus {
+    outline: none; /* Remove outline on focus */
+  }
+  
+  .editor *:focus {
+    outline: none; /* Remove outline for all child elements */
+  }
